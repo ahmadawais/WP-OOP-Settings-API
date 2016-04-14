@@ -10,4 +10,4 @@
 - [ ] Tutorials
 
 ## Credits
-@WordPress, @tareq1988
+@WordPress, @tareq1988, @royboy789, @twigpress
