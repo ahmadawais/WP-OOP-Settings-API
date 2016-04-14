@@ -83,7 +83,7 @@ if ( class_exists( 'WP_OSA' ) ) {
 
 
 
-
+    // Section: Basic Settings.
     $wposa_obj->add_section(
     	array(
 			'id'    => 'wposa_basic',
@@ -91,6 +91,7 @@ if ( class_exists( 'WP_OSA' ) ) {
 		)
     );
 
+    // Section: Other Settings.
     $wposa_obj->add_section(
     	array(
 			'id'    => 'wposa_other',
@@ -98,16 +99,15 @@ if ( class_exists( 'WP_OSA' ) ) {
 		)
     );
 
-
+    // Field: Text.
 	$wposa_obj->add_field(
 		'wposa_basic',
 		array(
-			'id'                => 'text',
-			'type'              => 'text',
-			'name'              => __( 'Text Input', 'WPOSA' ),
-			'desc'              => __( 'Text input description', 'WPOSA' ),
-			'default'           => 'Default Text',
-			// 'sanitize_callback' => 'intval'
+			'id'      => 'text',
+			'type'    => 'text',
+			'name'    => __( 'Text Input', 'WPOSA' ),
+			'desc'    => __( 'Text input description', 'WPOSA' ),
+			'default' => 'Default Text',
 		)
 	);
 
