@@ -7,3 +7,6 @@
 - [ ] Documentation
 - [ ] Blog post
 - [ ] Tutorials
+
+## Credits
+@WordPress, @tareq1988
