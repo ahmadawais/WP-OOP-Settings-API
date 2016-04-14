@@ -1,6 +1,6 @@
 # WP-OOP-Settings-API
 
-![](https://i.imgur.com/MvnzC1k.png)
+![](https://i.imgur.com/EXUoeLZ.png)
 ![](https://i.imgur.com/sc9816W.png)
 
 ## TODO:
