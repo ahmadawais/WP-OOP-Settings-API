@@ -75,14 +75,6 @@ if ( class_exists( 'WP_OSA' ) ) {
 	$wposa_obj = new WP_OSA();
 
 
-	// Enqueue the admin scripts.
-    add_action( 'admin_enqueue_scripts', array( $wposa_obj, 'admin_scripts' ) );
-
-    add_action( 'admin_init', array( $wposa_obj, 'admin_init' ) );
-    add_action( 'admin_menu', array( $wposa_obj, 'admin_menu' ) );
-
-
-
     // Section: Basic Settings.
     $wposa_obj->add_section(
     	array(

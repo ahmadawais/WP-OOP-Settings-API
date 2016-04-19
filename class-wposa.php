@@ -42,6 +42,22 @@ class WP_OSA {
 	 */
 	private $fields_array = array();
 
+	/**
+	 * Constructor.
+	 *
+	 * @since  1.0.0
+	 */
+	public function __construct() {
+		// Enqueue the admin scripts.
+	    add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
+
+	    // Hook it up.
+	    add_action( 'admin_init', array( $this, 'admin_init' ) );
+
+	    // Menu.
+	    add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+
+	}
 
 	/**
 	 * Admin Scripts.
@@ -626,20 +642,6 @@ class WP_OSA {
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	/**
 	 * Get the value of a settings field
 	 *
@@ -659,13 +661,33 @@ class WP_OSA {
 	    return $default;
 	}
 
+	/**
+	 * Add submenu page to the Settings main menu.
+	 *
+	 * @param string $page_title
+	 * @param string $menu_title
+	 * @param string $capability
+	 * @param string $menu_slug
+	 * @param callable $function = ''
+	 * @author Ahmad Awais
+	 * @since  [version]
+	 */
 
+	// public function admin_menu( $page_title = 'Page Title', $menu_title = 'Menu Title', $capability = 'manage_options', $menu_slug = 'settings_page', $callable = 'plugin_page' ) {
 	public function admin_menu() {
-		add_options_page( 'WPOSA API', 'WPOSA API', 'delete_posts', 'wposa_settings_api_test', array( $this, 'plugin_page' ) );
+		// add_options_page( $page_title, $menu_title, $capability, $menu_slug, array( $this, $callable ) );
+	    add_options_page(
+	    	'WP OSA',
+	    	'WP OSA',
+	    	'manage_options',
+	    	'wp_osa_settings',
+	    	array( $this, 'plugin_page' )
+	    );
 	}
 
 	public function plugin_page() {
 	    echo '<div class="wrap">';
+	    	echo '<h1>WPOSA Page Title <span style="font-size:50%;">v' . FBQ_VERSION . '</span></h1>';
 		    $this->show_navigation();
 		    $this->show_forms();
 	    echo '</div>';
@@ -697,7 +719,8 @@ class WP_OSA {
 	    ?>
 	    <div class="metabox-holder">
 	        <?php foreach ( $this->sections_array as $form ) { ?>
-	            <div id="<?php echo $form['id']; ?>" class="group" style="display: none;">
+	            <!-- style="display: none;" -->
+	            <div id="<?php echo $form['id']; ?>" class="group" >
 	                <form method="post" action="options.php">
 	                    <?php
 	                    do_action( 'wsa_form_top_' . $form['id'], $form );
@@ -726,7 +749,7 @@ class WP_OSA {
 	    <script>
 	        jQuery(document).ready(function($) {
 	            //Initiate Color Picker
-	            $('.wp-color-picker-field').wpColorPicker();
+	            // $('.wp-color-picker-field').wpColorPicker();
 
 	            // Switches option sections
 	            $('.group').hide();
