@@ -1,7 +1,7 @@
 # WP-OOP-Settings-API
 WIP: OOP based Settings API for WordPress.
 
-![WPOSA](https://i.imgur.com/DW0txjd.jpg)
+![WPOSA](https://i.imgur.com/gVEqftv.jpg)
 
 ## Screenshots
 
