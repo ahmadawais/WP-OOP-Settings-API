@@ -200,7 +200,9 @@ class WP_OSA {
 	            $section['desc'] = '<div class="inside">' . $section['desc'] . '</div>';
 
 	            // Create the callback for description.
-	            $callback = create_function( '', 'echo "' . str_replace( '"', '\"', $section['desc'] ) . '";' );
+	            $callback = function() use ($section) {
+		            echo str_replace( '"', '\"', $section['desc'] );
+	            };
 
 	        } elseif ( isset( $section['callback'] ) ) {
 	            $callback = $section['callback'];
