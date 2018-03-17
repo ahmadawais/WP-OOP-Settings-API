@@ -689,7 +689,7 @@ class WP_OSA {
 
 	public function plugin_page() {
 	    echo '<div class="wrap">';
-	    	echo '<h1>WPOSA Page Title <span style="font-size:50%;">v' . FBQ_VERSION . '</span></h1>';
+	    	echo '<h1>WPOSA Page Title <span style="font-size:50%;">v' . WPOSA_VERSION . '</span></h1>';
 		    $this->show_navigation();
 		    $this->show_forms();
 	    echo '</div>';
