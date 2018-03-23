@@ -1,7 +1,16 @@
-# WP OOP Settings API
-**OOP based Settings API for WordPress.** :point_up: Make sure you :star: and :eyes: this repository!
+<h1 align="center">
+  <img src="https://i.imgur.com/gVEqftv.jpg" />
 
-![WPOSA](https://i.imgur.com/gVEqftv.jpg)
+  WordPress OOP Settings API
+
+</h1>
+
+
+[![Tweet for help](https://img.shields.io/twitter/follow/mrahmadawais.svg?style=social&label=Tweet%20@MrAhmadAwais)](https://twitter.com/mrahmadawais/) [![GitHub stars](https://img.shields.io/github/stars/ahmadawais/WP-OOP-Settings-API.svg?style=social&label=Stars)](https://github.com/ahmadawais/WP-OOP-Settings-API/stargazers) [![GitHub followers](https://img.shields.io/github/followers/ahmadawais.svg?style=social&label=Follow)](https://github.com/ahmadawais?tab=followers) — :point_up: Make sure you :star: and :eyes: this repository!
+
+> Ever wanted to build custom settings inside your WordPress plugin or theme and didn't like the non-DRY approach for creating custom settings via WordPress API? Well, that's why and when I wrote this OOP Wrapper for WordPress Settings API. 🎊
+
+![Screenshots](http://on.ahmda.ws/qPBC/c)
 
 ## Screenshots
 
@@ -34,14 +43,22 @@
 - [ ] Re-factor the code with WP Standards
 - [ ] Re-factor the code into classes
 
-## Credits
-@WordPress, @tareq1988, @royboy789, @twigpress, @ahmadawais, @deviorobert
+![License](http://on.ahmda.ws/qNys/c)
 
 ## License
-Release under GNU GPL v2.0 
+Release under GNU GPL v2.0
+
+
+![Credits](http://on.ahmda.ws/qOxs/c)
+
+## Credits
+
+@AhmadAwais, @deviorobert, @MaedahBatool
+AND @WordPress, @tareq1988, @royboy789, @twigpress.
 
 
 ---
+![image](http://on.ahmda.ws/qP9p/c)
 ### 🙌 [WPCOUPLE PARTNERS](https://WPCouple.com/partners):
 This open source project is maintained by the help of awesome businesses listed below. What? [Read more about it →](https://WPCouple.com/partners)
 
