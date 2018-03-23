@@ -270,7 +270,7 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 					$default = isset( $field['default'] ) ? $field['default'] : '';
 
 					// Standard default placeholder.
-					$placeholder       = isset( $field['placeholder'] ) ? $field['placeholder'] : '';
+					$placeholder = isset( $field['placeholder'] ) ? $field['placeholder'] : '';
 
 					// Sanitize Callback.
 					$sanitize_callback = isset( $field['sanitize_callback'] ) ? $field['sanitize_callback'] : '';
@@ -320,8 +320,8 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 				/**
 				 * Registers a setting and its sanitization callback.
 				 *
-				 * @param string $field_group 	| A settings group name.
-				 * @param string $field_name 	| The name of an option to sanitize and save.
+				 * @param string $field_group   | A settings group name.
+				 * @param string $field_name    | The name of an option to sanitize and save.
 				 * @param callable  $sanitize_callback = ''
 				 * @since 1.0.0
 				 */
@@ -398,15 +398,16 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 		/**
 		 * Displays a title field for a settings field
 		 *
-		 * @param array   $args settings field args
+		 * @param array $args settings field args
 		 */
 		function callback_title( $args ) {
 			$value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
-			if( '' !== $args['name'] ) {
-			$name = $args['name'];
-			} else {};
-			$type  = isset( $args['type'] ) ? $args['type'] : 'title';
-			
+			if ( '' !== $args['name'] ) {
+				$name = $args['name'];
+			} else {
+			};
+			$type = isset( $args['type'] ) ? $args['type'] : 'title';
+
 			$html = '';
 			echo $html;
 		}
@@ -433,7 +434,7 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 		/**
 		 * Displays a url field for a settings field
 		 *
-		 * @param array   $args settings field args
+		 * @param array $args settings field args
 		 */
 		function callback_url( $args ) {
 			$this->callback_text( $args );
@@ -442,7 +443,7 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 		/**
 		 * Displays a number field for a settings field
 		 *
-		 * @param array   $args settings field args
+		 * @param array $args settings field args
 		 */
 		function callback_number( $args ) {
 			$this->callback_text( $args );
@@ -451,7 +452,7 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 		/**
 		 * Displays a checkbox for a settings field
 		 *
-		 * @param array   $args settings field args
+		 * @param array $args settings field args
 		 */
 		function callback_checkbox( $args ) {
 
@@ -470,7 +471,7 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 		/**
 		 * Displays a multicheckbox a settings field
 		 *
-		 * @param array   $args settings field args
+		 * @param array $args settings field args
 		 */
 		function callback_multicheck( $args ) {
 
@@ -478,7 +479,7 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 
 			$html = '<fieldset>';
 			foreach ( $args['options'] as $key => $label ) {
-				$checked = isset( $value[$key] ) ? $value[$key] : '0';
+				$checked = isset( $value[ $key ] ) ? $value[ $key ] : '0';
 				$html   .= sprintf( '<label for="wpuf-%1$s[%2$s][%3$s]">', $args['section'], $args['id'], $key );
 				$html   .= sprintf( '<input type="checkbox" class="checkbox" id="wpuf-%1$s[%2$s][%3$s]" name="%1$s[%2$s][%3$s]" value="%3$s" %4$s />', $args['section'], $args['id'], $key, checked( $checked, $key, false ) );
 				$html   .= sprintf( '%1$s</label><br>', $label );
@@ -492,7 +493,7 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 		/**
 		 * Displays a multicheckbox a settings field
 		 *
-		 * @param array   $args settings field args
+		 * @param array $args settings field args
 		 */
 		function callback_radio( $args ) {
 
@@ -513,7 +514,7 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 		/**
 		 * Displays a selectbox for a settings field
 		 *
-		 * @param array   $args settings field args
+		 * @param array $args settings field args
 		 */
 		function callback_select( $args ) {
 
@@ -533,7 +534,7 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 		/**
 		 * Displays a textarea for a settings field
 		 *
-		 * @param array   $args settings field args
+		 * @param array $args settings field args
 		 */
 		function callback_textarea( $args ) {
 
@@ -608,7 +609,7 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 		/**
 		 * Displays an image upload field with a preview
 		 *
-		 * @param array   $args settings field args.
+		 * @param array $args settings field args.
 		 */
 		function callback_image( $args ) {
 
@@ -663,10 +664,10 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 		/**
 		 * Displays a separator field for a settings field
 		 *
-		 * @param array   $args settings field args
+		 * @param array $args settings field args
 		 */
 		function callback_separator( $args ) {
-			$type  = isset( $args['type'] ) ? $args['type'] : 'separator';
+			$type = isset( $args['type'] ) ? $args['type'] : 'separator';
 
 			$html  = '';
 			$html .= '<div class="wpsa-settings-separator"></div>';
@@ -686,8 +687,8 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 
 			$options = get_option( $section );
 
-			if ( isset( $options[$option] ) ) {
-				return $options[$option];
+			if ( isset( $options[ $option ] ) ) {
+				return $options[ $option ];
 			}
 
 			return $default;
