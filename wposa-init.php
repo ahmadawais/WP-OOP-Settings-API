@@ -2,8 +2,8 @@
 /**
  * Plugin Name: WP OOP Settings API
  * Plugin URI: http://AhmadAwais.com/
- * Description: WP-OOP-Settings-API is a Settings API wrapper built with Object Oriented Programming practices.
- * Author: mrahmadawais, WPTie
+ * Description: Settings API wrapper built with Object Oriented Programming practices.
+ * Author: mrahmadawais, WPTie, deviodigital
  * Author URI: http://AhmadAwais.com/
  * Version: 1.0.0
  * License: GPL2+
