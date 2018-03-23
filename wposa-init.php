@@ -93,18 +93,6 @@ if ( class_exists( 'WP_OSA' ) ) {
 
 
 
-	// Field: Title.
-	$wposa_obj->add_field(
-		'wposa_basic',
-		array(
-			'id'      => 'title',
-			'type'    => 'title',
-			'name'    => '<h1>Title</h1>',
-		)
-	);
-
-
-
 	// Field: Text.
 	$wposa_obj->add_field(
 		'wposa_basic',
@@ -155,6 +143,29 @@ if ( class_exists( 'WP_OSA' ) ) {
 			'type' => 'textarea',
 			'name' => __( 'Textarea Input', 'WPOSA' ),
 			'desc' => __( 'Textarea description', 'WPOSA' ),
+		)
+	);
+
+
+
+	// Field: Separator.
+	$wposa_obj->add_field(
+		'wposa_basic',
+		array(
+			'id'      => 'separator',
+			'type'    => 'separator',
+		)
+	);
+
+
+
+	// Field: Title.
+	$wposa_obj->add_field(
+		'wposa_basic',
+		array(
+			'id'      => 'title',
+			'type'    => 'title',
+			'name'    => '<h1>Title</h1>',
 		)
 	);
 
@@ -251,17 +262,6 @@ if ( class_exists( 'WP_OSA' ) ) {
 			'options' => array(
 				'button_label' => 'Choose file'
 			)
-		)
-	);
-
-
-
-	// Field: Separator.
-	$wposa_obj->add_field(
-		'wposa_other',
-		array(
-			'id'      => 'separator',
-			'type'    => 'separator',
 		)
 	);
 
