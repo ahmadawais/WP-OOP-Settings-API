@@ -93,6 +93,7 @@ if ( class_exists( 'WP_OSA' ) ) {
 
 
 
+	// Field: Title.
 	$wposa_obj->add_field(
 		'wposa_basic',
 		array(
@@ -104,7 +105,7 @@ if ( class_exists( 'WP_OSA' ) ) {
 
 
 
-    // Field: Text.
+	// Field: Text.
 	$wposa_obj->add_field(
 		'wposa_basic',
 		array(
@@ -117,6 +118,8 @@ if ( class_exists( 'WP_OSA' ) ) {
 	);
 
 
+
+	// Field: Number.
 	$wposa_obj->add_field(
 		'wposa_basic',
 		array(
@@ -130,6 +133,8 @@ if ( class_exists( 'WP_OSA' ) ) {
 	);
 
 
+
+	// Field: Password.
 	$wposa_obj->add_field(
 		'wposa_basic',
 		array(
@@ -141,6 +146,8 @@ if ( class_exists( 'WP_OSA' ) ) {
 	);
 
 
+
+	// Field: Textarea.
 	$wposa_obj->add_field(
 		'wposa_basic',
 		array(
@@ -152,6 +159,8 @@ if ( class_exists( 'WP_OSA' ) ) {
 	);
 
 
+
+	// Field: Checkbox.
 	$wposa_obj->add_field(
 		'wposa_basic',
 		array(
@@ -164,6 +173,7 @@ if ( class_exists( 'WP_OSA' ) ) {
 
 
 
+	// Field: Radio.
 	$wposa_obj->add_field(
 		'wposa_basic',
 		array(
@@ -180,6 +190,7 @@ if ( class_exists( 'WP_OSA' ) ) {
 
 
 
+	// Field: Multicheck.
 	$wposa_obj->add_field(
 		'wposa_basic',
 		array(
@@ -195,6 +206,8 @@ if ( class_exists( 'WP_OSA' ) ) {
 	);
 
 
+
+	// Field: Select.
 	$wposa_obj->add_field(
 		'wposa_basic',
 		array(
@@ -211,6 +224,7 @@ if ( class_exists( 'WP_OSA' ) ) {
 
 
 
+	// Field: Image.
 	$wposa_obj->add_field(
 		'wposa_other',
 		array(
@@ -225,6 +239,8 @@ if ( class_exists( 'WP_OSA' ) ) {
 	);
 
 
+
+	// Field: File.
 	$wposa_obj->add_field(
 		'wposa_other',
 		array(
@@ -239,6 +255,8 @@ if ( class_exists( 'WP_OSA' ) ) {
 	);
 
 
+
+	// Field: Separator.
 	$wpdas_obj->add_field(
 		'wposa_other',
 		array(
@@ -249,6 +267,7 @@ if ( class_exists( 'WP_OSA' ) ) {
 
 
 
+	// Field: Color.
 	$wposa_obj->add_field(
 		'wposa_other',
 		array(
@@ -261,6 +280,7 @@ if ( class_exists( 'WP_OSA' ) ) {
 
 
 
+	// Field: WYSIWYG.
 	$wposa_obj->add_field(
 		'wposa_other',
 		array(
