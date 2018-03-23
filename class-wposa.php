@@ -709,8 +709,8 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 		public function admin_menu() {
 			// add_options_page( $page_title, $menu_title, $capability, $menu_slug, array( $this, $callable ) );
 			add_options_page(
-				'WP OSA',
-				'WP OSA',
+				'WP OOP Settings API',
+				'WP OOP Settings API',
 				'manage_options',
 				'wp_osa_settings',
 				array( $this, 'plugin_page' )
@@ -719,7 +719,7 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 
 		public function plugin_page() {
 			echo '<div class="wrap">';
-			echo '<h1>WPOSA Page Title <span style="font-size:50%;">v' . WPOSA_VERSION . '</span></h1>';
+			echo '<h1>WP OOP Settings API <span style="font-size:50%;">v' . WPOSA_VERSION . '</span></h1>';
 			$this->show_navigation();
 			$this->show_forms();
 			echo '</div>';
