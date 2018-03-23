@@ -1,5 +1,5 @@
-# WP-OOP-Settings-API
-WIP: OOP based Settings API for WordPress.
+# WP OOP Settings API
+**OOP based Settings API for WordPress.** :point_up: Make sure you :star: and :eyes: this repository!
 
 ![WPOSA](https://i.imgur.com/gVEqftv.jpg)
 
@@ -35,7 +35,7 @@ WIP: OOP based Settings API for WordPress.
 - [ ] Re-factor the code into classes
 
 ## Credits
-@WordPress, @tareq1988, @royboy789, @twigpress
+@WordPress, @tareq1988, @royboy789, @twigpress, @ahmadawais, @deviorobert
 
 ## License
 Release under GNU GPL v2.0 
