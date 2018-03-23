@@ -428,7 +428,6 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 		}
 
 
-
 		/**
 		 * Displays a url field for a settings field
 		 *
@@ -660,6 +659,18 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 
 
 		/**
+		 * Displays a separator field for a settings field
+		 *
+		 * @param array   $args settings field args
+		 */
+		function callback_separator( $args ) {
+			$type  = isset( $args['type'] ) ? $args['type'] : 'separator';
+			$html .= '<div class="wpsa-settings-separator"></div>';
+			echo $html;
+		}
+
+
+		/**
 		 * Get the value of a settings field
 		 *
 		 * @param string $option  settings field name.
@@ -844,6 +855,7 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 						.form-table th { padding: 20px 10px; }
 						#wpbody-content .metabox-holder { padding-top: 5px; }
 						.wpsa-image-preview img{ height: auto; max-width: 70px; }
+						.wpsa-settings-separator { background: #ccc; border: 0; color: #ccc; height: 1px; position: absolute; left: 0; width: 99%; }
 						</style>
 						<?php
 		}
