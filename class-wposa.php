@@ -406,6 +406,8 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 			$name = $args['name'];
 			} else {};
 			$type  = isset( $args['type'] ) ? $args['type'] : 'title';
+			
+			$html = '';
 			echo $html;
 		}
 
@@ -665,6 +667,8 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 		 */
 		function callback_separator( $args ) {
 			$type  = isset( $args['type'] ) ? $args['type'] : 'separator';
+
+			$html  = '';
 			$html .= '<div class="wpsa-settings-separator"></div>';
 			echo $html;
 		}
