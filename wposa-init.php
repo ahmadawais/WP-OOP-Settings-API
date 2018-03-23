@@ -91,6 +91,19 @@ if ( class_exists( 'WP_OSA' ) ) {
 		)
     );
 
+
+
+	$wposa_obj->add_field(
+		'wposa_basic',
+		array(
+			'id'      => 'title',
+			'type'    => 'title',
+			'name'    => '<h1>Title</h1>',
+		)
+	);
+
+
+
     // Field: Text.
 	$wposa_obj->add_field(
 		'wposa_basic',
@@ -195,6 +208,7 @@ if ( class_exists( 'WP_OSA' ) ) {
 			)
 		)
 	);
+
 
 
 	$wposa_obj->add_field(
