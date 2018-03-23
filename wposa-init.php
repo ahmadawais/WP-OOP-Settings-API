@@ -257,7 +257,7 @@ if ( class_exists( 'WP_OSA' ) ) {
 
 
 	// Field: Separator.
-	$wpdas_obj->add_field(
+	$wposa_obj->add_field(
 		'wposa_other',
 		array(
 			'id'      => 'separator',
