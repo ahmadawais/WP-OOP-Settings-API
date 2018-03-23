@@ -239,6 +239,16 @@ if ( class_exists( 'WP_OSA' ) ) {
 	);
 
 
+	$wpdas_obj->add_field(
+		'wposa_other',
+		array(
+			'id'      => 'separator',
+			'type'    => 'separator',
+		)
+	);
+
+
+
 	$wposa_obj->add_field(
 		'wposa_other',
 		array(
@@ -260,11 +270,6 @@ if ( class_exists( 'WP_OSA' ) ) {
 			'desc' => __( 'WP_Editor description', 'WPOSA' ),
 		)
 	);
-
-
-
-
-
 
 
 
