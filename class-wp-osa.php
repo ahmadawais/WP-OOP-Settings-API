@@ -68,7 +68,13 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 			wp_enqueue_script( 'jquery' );
 
 			// Color Picker.
-			wp_enqueue_style( 'wp-color-picker' );
+			wp_enqueue_script(
+				'iris',
+				admin_url( 'js/iris.min.js' ),
+				array( 'jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch' ),
+				false,
+				1
+			);
 
 			// Media Uploader.
 			wp_enqueue_media();
@@ -650,10 +656,10 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 		 */
 		function callback_color( $args ) {
 
-			$value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
+			$value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'], $args['placeholder'] ) );
 			$size  = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
 
-			$html  = sprintf( '<input type="text" class="%1$s-text wp-color-picker-field" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s" data-default-color="%5$s" />', $size, $args['section'], $args['id'], $value, $args['std'] );
+			$html  = sprintf( '<input type="text" class="%1$s-text color-picker" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s" data-default-color="%5$s" placeholder="%6$s" />', $size, $args['section'], $args['id'], $value, $args['std'], $args['placeholder'] );
 			$html .= $this->get_field_description( $args );
 
 			echo $html;
@@ -781,8 +787,8 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 			<script>
 				jQuery( document ).ready( function( $ ) {
 
-				//Initiate Color Picker
-				// $('.wp-color-picker-field').wpColorPicker();
+				//Initiate Color Picker.
+				$('.color-picker').iris();
 
 				// Switches option sections
 				$( '.group' ).hide();
@@ -901,6 +907,9 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 					position: absolute;
 					left: 0;
 					width: 99%;
+				}
+				.group .form-table input.color-picker {
+					max-width: 100px;
 				}
 			</style>
 			<?php

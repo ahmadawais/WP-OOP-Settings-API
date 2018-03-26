@@ -242,10 +242,11 @@ if ( class_exists( 'WP_OSA' ) ) {
 	$wposa_obj->add_field(
 		'wposa_other',
 		array(
-			'id'   => 'color',
-			'type' => 'color',
-			'name' => __( 'Color', 'WPOSA' ),
-			'desc' => __( 'Color description', 'WPOSA' ),
+			'id'          => 'color',
+			'type'        => 'color',
+			'name'        => __( 'Color', 'WPOSA' ),
+			'desc'        => __( 'Color description', 'WPOSA' ),
+			'placeholder' => __( '#5F4B8B', 'WPOSA' ),
 		)
 	);
 
