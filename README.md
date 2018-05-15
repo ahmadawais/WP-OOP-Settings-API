@@ -10,7 +10,7 @@
 
 > Ever wanted to build custom settings inside your WordPress plugin or theme and didn't like the non-DRY approach for creating custom settings via WordPress API? Well, that's why and when I wrote this OOP Wrapper for WordPress Settings API. 🎊
 
-![Screenshots](http://on.ahmda.ws/qPBC/c)
+![Screenshots](https://on.ahmda.ws/qPBC/c)
 
 ## Screenshots
 
@@ -43,13 +43,13 @@
 - [ ] Re-factor the code with WP Standards
 - [ ] Re-factor the code into classes
 
-![License](http://on.ahmda.ws/qNys/c)
+![License](https://on.ahmda.ws/qNys/c)
 
 ## License
 Release under GNU GPL v2.0
 
 
-![Credits](http://on.ahmda.ws/qOxs/c)
+![Credits](https://on.ahmda.ws/qOxs/c)
 
 ## Credits
 
@@ -58,7 +58,7 @@ AND @WordPress, @tareq1988, @royboy789, @twigpress.
 
 
 ---
-![image](http://on.ahmda.ws/qP9p/c)
+![image](https://on.ahmda.ws/qP9p/c)
 ### 🙌 [WPCOUPLE PARTNERS](https://WPCouple.com/partners):
 This open source project is maintained by the help of awesome businesses listed below. What? [Read more about it →](https://WPCouple.com/partners)
 
