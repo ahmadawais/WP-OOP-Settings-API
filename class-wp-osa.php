@@ -767,7 +767,7 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 							do_action( 'wsa_form_bottom_' . $form['id'], $form );
 							?>
 							<div style="padding-left: 10px">
-								<?php submit_button(); ?>
+								<?php submit_button(null, 'primary', 'submit_'.$form['id']); ?>
 							</div>
 						</form>
 					</div>
