@@ -18,6 +18,14 @@
 ![](https://i.imgur.com/sc9816W.png)
 ![](https://i.imgur.com/0SWjn4A.png)
 
+## Extensible
+
+If you want to add to settings page from child plugin:
+
+  * Make Parent plugin instance is publicly accessible: `self::$settings_page = new Settings_Page();`
+  * In child plugin: self::$wposa_obj = `Parent_plugin_class::$settings_page::$wposa_obj;
+  * Now `self::$wposa_obj->add_section` adds to Parent plugin page.
+
 ## TODO:
 - [x] Basic Settings Page
 - [x] Tabs on Settings Page with JS
