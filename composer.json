@@ -1,0 +1,9 @@
+{
+    "name": "ahmadawais/wp-oop-settings-api",
+    "description": "WP-OOP-Settings-API is a Settings API wrapper built with Object Oriented Programming practices.",
+    "type": "library",
+    "license": "GPL-2.0",
+    "autoload": {
+	    "files": ["class-wp-osa.php"]
+	 }
+}
