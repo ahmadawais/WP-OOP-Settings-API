@@ -41,22 +41,71 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 		 */
 		private $fields_array = array();
 
+		
+
+
 		/**
 		 * Constructor.
 		 *
 		 * @since  1.0.0
 		 */
-		public function __construct() {
-			// Enqueue the admin scripts.
-			add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
+		public function __construct($options = null ) {
+			$this->init_options($options);
+			if(is_admin()){
+				// Enqueue the admin scripts.
+				add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 
-			// Hook it up.
-			add_action( 'admin_init', array( $this, 'admin_init' ) );
+				// Hook it up.
+				add_action( 'admin_init', array( $this, 'admin_init' ) );
 
-			// Menu.
-			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+				// Menu.
+				add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+			}
+			add_action( 'init', array( $this, 'init_consts' ) );
 
 		}
+
+		public function init_options($options){
+	        $this->options = $options;
+	        foreach($this->options as $section ){
+	            $name = $title = $fields = null;
+	            extract($section);
+	            $this->add_section(
+	                [
+	                    'id'    => $name,
+	                    'title' => $title,
+	                ]
+	            );
+	            if ( $fields ){
+	                foreach ( $fields as $field){
+	                    $this->add_field(
+	                        $name ,
+	                        [
+	                            'id'      => $field['id'],
+	                            'type'    => $field['type'],
+	                            'name'    => $field['title'],
+	                            'desc'    => isset($field['description']) ? $field['description'] : null,
+	                            'default' => isset($field['default']) ? $field['default'] : null,
+	                        ]
+	                    );
+	                }
+	            }
+	        }
+	    }
+	    
+	    public function init_consts() {
+	        foreach($this->options as $section ){
+	            $options = get_option( $section['name'] );
+	            if($options){
+		            foreach ($options as $key => $value ){
+		                $option_name = $section['name']  . '_' . $key;
+		                if (!defined($option_name)) {
+		                    define($option_name, $value );
+		                }
+		            }
+	            }
+	        }
+	    }
 
 		/**
 		 * Admin Scripts.
