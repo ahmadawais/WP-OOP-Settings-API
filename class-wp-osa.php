@@ -42,16 +42,15 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 		private $fields_array = array();
 
 		
-
-
 		/**
 		 * Constructor.
 		 *
 		 * @since  1.0.0
 		 */
 		public function __construct($options = null ) {
-			$this->init_options($options);
-			if(is_admin()){
+			$this->options = $options;
+            $this->init_consts();
+            if(is_admin()){
 				// Enqueue the admin scripts.
 				add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 
@@ -60,13 +59,12 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 
 				// Menu.
 				add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+            	$this->init_options();
 			}
-			add_action( 'init', array( $this, 'init_consts' ) );
-
+	        do_action('settings_ready');
 		}
 
-		public function init_options($options){
-	        $this->options = $options;
+		public function init_options(){
 	        foreach($this->options as $section ){
 	            $name = $title = $fields = null;
 	            extract($section);
@@ -78,6 +76,13 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 	            );
 	            if ( $fields ){
 	                foreach ( $fields as $field){
+                        if ( isset($field['show_if'])  && is_callable($field['show_if'])  ){
+                            $show = $field['show_if']();
+                            if(!$show){
+                                continue;
+                            }
+                        }
+
 	                    $this->add_field(
 	                        $name ,
 	                        [
@@ -86,6 +91,7 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 	                            'name'    => $field['title'],
 	                            'desc'    => isset($field['description']) ? $field['description'] : null,
 	                            'default' => isset($field['default']) ? $field['default'] : null,
+                                'options' => isset($field['options']) ? $field['options'] : null,
 	                        ]
 	                    );
 	                }

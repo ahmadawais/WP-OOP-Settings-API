@@ -12,11 +12,64 @@
 
 ![Screenshots](https://on.ahmda.ws/qPBC/c)
 
+
+
 ## Screenshots
 
 ![](https://i.imgur.com/EXUoeLZ.png)
 ![](https://i.imgur.com/sc9816W.png)
 ![](https://i.imgur.com/0SWjn4A.png)
+
+
+## COMPOSER INSTALL
+
+* As for now, this package is not yet submited to packagist, you'll have the repository to your composer file like this :
+```json
+{
+    "require": {
+        "ahmadawais/WP-OOP-Settings-API": "dev-master"
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url":  "https://github.com/ahmadawais/WP-OOP-Settings-API.git"
+        }
+    ]
+}
+
+```
+
+* You'll be able to use WP_OSA class after requiring vendor/autoload.php
+
+## USAGE
+
+* Prepare un array of options then instanciate WP_OSA
+```php
+$options = 
+[
+    'name' => 'MY_AWESOME_FEATURE',
+    'title' => 'My Awesome Feature',
+    'fields' => [
+        [
+            'id' => 'ACTIVE',
+            'type' => 'checkbox',
+            'title' => 'The feature is active' ,
+        ],
+        [
+            'id' => 'FIRST_SETTING',
+            'type' => 'number',
+            'title' => 'First setting' ,
+            'default' => 0 ,
+            // This setting will be included only if the first checkbox is checked
+            'show_if' => function(){ return defined('MY_AWESOME_FEATURE_ACTIVE') && MY_AWESOME_FEATURE_ACTIVE == 'on'; }
+        ]
+    ]
+];
+$setting = new WP_OSA($options);
+```
+* Once the options are saved, constants MY\_\AWESOME\_FEATURE\_ACTIVE will be available and will be able to set the first setting MY\_AWESOME\_FEATURE\_FIRST\_SETTING 
+
+
 
 ## TODO:
 - [x] Basic Settings Page
