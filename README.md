@@ -90,6 +90,7 @@ $setting = new WP_OSA($options);
 - [x] Create Field: `image`
 - [x] Create Field: `password`
 - [x] Create Field: `color`
+- [x] Create Field: `email`
 - [ ] Tutorials
 - [ ] Blog post
 - [ ] Documentation

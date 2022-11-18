@@ -433,6 +433,10 @@ if ( ! class_exists( 'WP_OSA' ) ) :
                     return (is_numeric($field_value)) ? $field_value : 0;
                 case 'textarea':
                     return wp_kses_post($field_value);
+                case 'email':
+                    return sanitize_email($field_value);
+                case 'url':
+                    return sanitize_url($field_value);
                 default:
                     return !empty($field_value) ? sanitize_text_field($field_value) : '';
             }
@@ -517,6 +521,15 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 		function callback_url( $args ) {
 			$this->callback_text( $args );
 		}
+
+        /**
+         * Displays an email field for a settings field
+         *
+         * @param array $args settings field args
+         */
+        function callback_email( $args ) {
+            $this->callback_text( $args );
+        }
 
 		/**
 		 * Displays a number field for a settings field
