@@ -377,7 +377,8 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 
 			// Creates our settings in the fields table.
 			foreach ( $this->sections_array as $section ) {
-				/**
+				$section_id = $section['id'];
+                /**
 				 * Registers a setting and its sanitization callback.
 				 *
 				 * @param string $field_group   | A settings group name.
@@ -385,58 +386,75 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 				 * @param callable  $sanitize_callback = ''
 				 * @since 1.0.0
 				 */
-				register_setting( $section['id'], $section['id'], array( $this, 'sanitize_fields' ) );
+				register_setting($section_id, $section_id, function ($fields) use ($section_id) {
+                    return $this->sanitize_fields($fields, $section_id);
+                });
 			} // foreach ended.
 
 		} // admin_init() ended.
 
 
-		/**
-		 * Sanitize callback for Settings API fields.
-		 *
-		 * @since 1.0.0
-		 */
-		public function sanitize_fields( $fields ) {
-			foreach ( $fields as $field_slug => $field_value ) {
-				$sanitize_callback = $this->get_sanitize_callback( $field_slug );
+        /**
+         * Sanitize callback for Settings API fields.
+         *
+         * @since 1.0.0
+         */
+        public function sanitize_fields($fields, $section_id)
+        {
+            foreach ($fields as $field_slug => $field_value) {
+                if ($field_config = $this->get_field_config($section_id, $field_slug)) {
+                    // Use sanitizer from field config, if not provided, use internal sanitization
+                    $sanitize_callback = isset($field_config['sanitize_callback']) && is_callable($field_config['sanitize_callback']) ?
+                        $field_config['sanitize_callback'] :
+                        function ($field_value) use ($field_config) {
+                            return $this->sanitize_field($field_value, $field_config);
+                        };
+                    if ($sanitize_callback) {
+                        $fields[ $field_slug ] = call_user_func($sanitize_callback, $field_value);
+                        continue;
+                    }
+                }
+            }
+            return $fields;
+        }
 
-				// If callback is set, call it.
-				if ( $sanitize_callback ) {
-					$fields[ $field_slug ] = call_user_func( $sanitize_callback, $field_value );
-					continue;
-				}
-			}
+        /**
+         * General Sanitize callback for a field, uses the field config to get the type of field
+         *
+         * @since 1.0.0
+         */
+        public function sanitize_field($field_value, $field_config)
+        {
+            $type = $field_config['type'];
+            switch ($type) {
+                case 'checkbox':
+                    return $field_value == 'on' ? 'on' : 'off' ;
+                case 'number':
+                    return (is_numeric($field_value)) ? $field_value : 0;
+                case 'textarea':
+                    return wp_kses_post($field_value);
+                default:
+                    return !empty($field_value) ? sanitize_text_field($field_value) : '';
+            }
+        }
 
-			return $fields;
-		}
-
-
-		/**
-		 * Get sanitization callback for given option slug
-		 *
-		 * @param string $slug option slug.
-		 * @return mixed string | bool false
-		 * @since  1.0.0
-		 */
-		function get_sanitize_callback( $slug = '' ) {
-			if ( empty( $slug ) ) {
-				return false;
-			}
-
-			// Iterate over registered fields and see if we can find proper callback.
-			foreach ( $this->fields_array as $section => $field_array ) {
-				foreach ( $field_array as $field ) {
-					if ( $field['name'] != $slug ) {
-						continue;
-					}
-
-					// Return the callback name.
-					return isset( $field['sanitize_callback'] ) && is_callable( $field['sanitize_callback'] ) ? $field['sanitize_callback'] : false;
-				}
-			}
-
-			return false;
-		}
+        /**
+         * Gets the field configuration.
+         *
+         * @param      string  $section_id  The section identifier
+         * @param      string  $field_slug  The field slug
+         *
+         * @return     array  The field configuration or null.
+         */
+        public function get_field_config($section_id, $field_slug)
+        {
+            foreach ($this->fields_array[$section_id] as $field) {
+                if ($field['id'] == $field_slug) {
+                    return $field;
+                }
+            }
+            return null;
+        }
 
 
 		/**
