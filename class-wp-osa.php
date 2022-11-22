@@ -856,6 +856,7 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 								<?php submit_button(null, 'primary', 'submit_'.$form['id']); ?>
 							</div>
 						</form>
+						<?php do_action('wsa_after_form_' . $form['id'], $form); ?>
 					</div>
 				<?php } ?>
 			</div>
