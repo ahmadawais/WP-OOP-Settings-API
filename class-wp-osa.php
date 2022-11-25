@@ -49,8 +49,8 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 		 */
 		public function __construct($options = null ) {
 			$this->options = $options;
-            $this->init_consts();
-            if(is_admin()){
+			$this->init_consts();
+			if(is_admin()){
 				// Enqueue the admin scripts.
 				add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 
@@ -59,59 +59,64 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 
 				// Menu.
 				add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-            	$this->init_options();
+				$this->init_options();
 			}
-	        do_action('settings_ready');
+			do_action('settings_ready');
 		}
 
 		public function init_options(){
-	        foreach($this->options as $section ){
-	            $name = $title = $fields = null;
-	            extract($section);
-	            $this->add_section(
-	                [
-	                    'id'    => $name,
-	                    'title' => $title,
-	                ]
-	            );
-	            if ( $fields ){
-	                foreach ( $fields as $field){
-                        if ( isset($field['show_if'])  && is_callable($field['show_if'])  ){
-                            $show = $field['show_if']();
-                            if(!$show){
-                                continue;
-                            }
-                        }
+			foreach($this->options as $section ){
+				$name = $title = $fields = null;
+				extract($section);
+				$this->add_section(
+					[
+						'id'    => $name,
+						'title' => $title,
+					]
+				);
+				if ( $fields ){
+					foreach ( $fields as $field){
+						if ( isset($field['show_if'])  && is_callable($field['show_if'])  ){
+							$show = $field['show_if']();
+							if(!$show){
+								continue;
+							}
+						}
 
-	                    $this->add_field(
-	                        $name ,
-	                        [
-	                            'id'      => $field['id'],
-	                            'type'    => $field['type'],
-	                            'name'    => $field['title'],
-	                            'desc'    => isset($field['description']) ? $field['description'] : null,
-	                            'default' => isset($field['default']) ? $field['default'] : null,
-                                'options' => isset($field['options']) ? $field['options'] : null,
-	                        ]
-	                    );
-	                }
-	            }
-	        }
-	    }
-	    
-	    public function init_consts() {
-	        foreach($this->options as $section ){
-	            $options = get_option( $section['name'] );
-	            if($options){
-		            foreach ($options as $key => $value ){
-		                $option_name = $section['name']  . '_' . $key;
-		                if (!defined($option_name)) {
-		                    define($option_name, $value );
-		                }
-		            }
-	            }
-	        }
-	    }
+						$this->add_field(
+							$name ,
+							[
+								'id'      => $field['id'],
+								'type'    => $field['type'],
+								'name'    => $field['title'],
+								'label_for' => isset($field['label_for']) ? $field['label_for'] : null,
+								'desc'    => isset($field['description']) ? $field['description'] : null,
+								'default' => isset($field['default']) ? $field['default'] : null,
+								'size' => isset($field['size']) ? $field['size'] : null,
+								'options' => isset($field['options']) ? $field['options'] : null,
+								'placeholder' => isset($field['placeholder']) ? $field['placeholder'] : null,
+								'sanitize_callback' => isset($field['sanitize_callback']) ? $field['sanitize_callback'] : null,
+								'sanitization_error_message' => isset($field['sanitization_error_message']) ? $field['sanitization_error_message'] : null,
+							]
+						);
+					}
+				}
+			}
+		}
+		
+		public function init_consts() {
+			foreach($this->options as $section ){
+				$options = get_option( $section['name'] );
+				if($options){
+					foreach ($options as $key => $value ){
+						$option_name = $section['name']  . '_' . $key;
+						if (!defined($option_name)) {
+							define($option_name, $value );
+						}
+					}
+				}
+			}
+		}
 
 		/**
 		 * Admin Scripts.
@@ -335,6 +340,9 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 					// Sanitize Callback.
 					$sanitize_callback = isset( $field['sanitize_callback'] ) ? $field['sanitize_callback'] : '';
 
+					// Sanitization error message.
+					$sanitization_error_message = isset($field['sanitization_error_message']) ? $field['sanitization_error_message'] : null;
+
 					$args = array(
 						'id'                => $id,
 						'type'              => $type,
@@ -347,6 +355,7 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 						'std'               => $default,
 						'placeholder'       => $placeholder,
 						'sanitize_callback' => $sanitize_callback,
+						'sanitization_error_message' => $sanitization_error_message,
 					);
 
 					/**
@@ -378,7 +387,7 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 			// Creates our settings in the fields table.
 			foreach ( $this->sections_array as $section ) {
 				$section_id = $section['id'];
-                /**
+				/**
 				 * Registers a setting and its sanitization callback.
 				 *
 				 * @param string $field_group   | A settings group name.
@@ -387,78 +396,97 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 				 * @since 1.0.0
 				 */
 				register_setting($section_id, $section_id, function ($fields) use ($section_id) {
-                    return $this->sanitize_fields($fields, $section_id);
-                });
+					return $this->sanitize_fields($fields, $section_id);
+				});
 			} // foreach ended.
 
 		} // admin_init() ended.
 
+		public function default_sanitization_error_message($field_config){
+			return sprintf( __('Please insert a valid %s') , $field_config['type'] );
+		}
 
-        /**
-         * Sanitize callback for Settings API fields.
-         *
-         * @since 1.0.0
-         */
-        public function sanitize_fields($fields, $section_id)
-        {
-            foreach ($fields as $field_slug => $field_value) {
-                if ($field_config = $this->get_field_config($section_id, $field_slug)) {
-                    // Use sanitizer from field config, if not provided, use internal sanitization
-                    $sanitize_callback = isset($field_config['sanitize_callback']) && is_callable($field_config['sanitize_callback']) ?
-                        $field_config['sanitize_callback'] :
-                        function ($field_value) use ($field_config) {
-                            return $this->sanitize_field($field_value, $field_config);
-                        };
-                    if ($sanitize_callback) {
-                        $fields[ $field_slug ] = call_user_func($sanitize_callback, $field_value);
-                        continue;
-                    }
-                }
-            }
-            return $fields;
-        }
+		/**
+		 * Sanitize callback for Settings API fields.
+		 *
+		 * @since 1.0.0
+		 */
+		public function sanitize_fields($fields, $section_id)
+		{
+			$old_values = get_option($section_id, []);
+			foreach ($fields as $field_slug => $field_value) {
+				if (!empty($field_value) && $field_config = $this->get_field_config($section_id, $field_slug)) {
+					// Use sanitizer from field config, if not provided, use internal sanitization
+					$sanitize_callback = isset($field_config['sanitize_callback']) && is_callable($field_config['sanitize_callback']) ?
+						$field_config['sanitize_callback'] :
+						function ($field_value) use ($field_config) {
+							return $this->sanitize_field($field_value, $field_config);
+						};
+					if ($sanitize_callback) {
+						$sanitized = call_user_func($sanitize_callback, $field_value);
+						if (empty($sanitized)) {
+							$error_message = isset($field_config['sanitization_error_message']) ?
+								$field_config['sanitization_error_message'] :
+								$this->default_sanitization_error_message($field_config);
+							add_settings_error( 
+								$section_id,
+								$section_id.'['.$field_slug.']', // so we can easily access the field ( see script method sanitization errors )
+								$error_message,
+								'error'
+							);
+							if(isset($old_values[$field_slug])) {
+								// Get the old value
+								$sanitized = $old_values[$field_slug];
+							}
+						}
+						$fields[ $field_slug ] = $sanitized ;
+					}
+				}
+			}
+			return $fields;
+		}
 
-        /**
-         * General Sanitize callback for a field, uses the field config to get the type of field
-         *
-         * @since 1.0.0
-         */
-        public function sanitize_field($field_value, $field_config)
-        {
-            $type = $field_config['type'];
-            switch ($type) {
-                case 'checkbox':
-                    return $field_value == 'on' ? 'on' : 'off' ;
-                case 'number':
-                    return (is_numeric($field_value)) ? $field_value : 0;
-                case 'textarea':
-                    return wp_kses_post($field_value);
-                case 'email':
-                    return sanitize_email($field_value);
-                case 'url':
-                    return sanitize_url($field_value);
-                default:
-                    return !empty($field_value) ? sanitize_text_field($field_value) : '';
-            }
-        }
+		/**
+		 * General Sanitize callback for a field, uses the field config to get the type of field
+		 *
+		 * @since 1.0.0
+		 */
+		public function sanitize_field($field_value, $field_config)
+		{
+			$type = $field_config['type'];
+			switch ($type) {
+				case 'checkbox':
+					return $field_value == 'on' ? 'on' : 'off' ;
+				case 'number':
+					return (is_numeric($field_value)) ? $field_value : 0;
+				case 'textarea':
+					return wp_kses_post($field_value);
+				case 'email':
+					return sanitize_email($field_value);
+				case 'url':
+					return sanitize_url($field_value);
+				default:
+					return !empty($field_value) ? sanitize_text_field($field_value) : '';
+			}
+		}
 
-        /**
-         * Gets the field configuration.
-         *
-         * @param      string  $section_id  The section identifier
-         * @param      string  $field_slug  The field slug
-         *
-         * @return     array  The field configuration or null.
-         */
-        public function get_field_config($section_id, $field_slug)
-        {
-            foreach ($this->fields_array[$section_id] as $field) {
-                if ($field['id'] == $field_slug) {
-                    return $field;
-                }
-            }
-            return null;
-        }
+		/**
+		 * Gets the field configuration.
+		 *
+		 * @param      string  $section_id  The section identifier
+		 * @param      string  $field_slug  The field slug
+		 *
+		 * @return     array  The field configuration or null.
+		 */
+		public function get_field_config($section_id, $field_slug)
+		{
+			foreach ($this->fields_array[$section_id] as $field) {
+				if ($field['id'] == $field_slug) {
+					return $field;
+				}
+			}
+			return null;
+		}
 
 
 		/**
@@ -522,14 +550,14 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 			$this->callback_text( $args );
 		}
 
-        /**
-         * Displays an email field for a settings field
-         *
-         * @param array $args settings field args
-         */
-        function callback_email( $args ) {
-            $this->callback_text( $args );
-        }
+		/**
+		 * Displays an email field for a settings field
+		 *
+		 * @param array $args settings field args
+		 */
+		function callback_email( $args ) {
+			$this->callback_text( $args );
+		}
 
 		/**
 		 * Displays a number field for a settings field
@@ -848,6 +876,7 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 						<form method="post" action="options.php">
 							<?php
 							do_action( 'wsa_form_top_' . $form['id'], $form );
+							settings_errors($form['id']);
 							settings_fields( $form['id'] );
 							do_settings_sections( $form['id'] );
 							do_action( 'wsa_form_bottom_' . $form['id'], $form );
@@ -967,6 +996,20 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 							.attr( 'src', self.val() );
 					})
 					.change();
+					
+				// Sanitization errors
+                $('div.settings-error').each(function(){
+                	// Get the field mame and make sure to escape brackets
+                	var field_id = $(this).attr('id')
+                		.replace('setting-error-', '')
+                		.replace('[', "\\[") 
+                		.replace(']', "\\]")
+                	var $field = $("[name="+field_id+"]");
+                	$field.addClass('sanitization-error');
+                	$field.one('change',function(){
+                		$field.removeClass('sanitization-error');
+                	});
+                });
 			});
 
 			</script>
@@ -998,6 +1041,13 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 				.group .form-table input.color-picker {
 					max-width: 100px;
 				}
+
+				/* Pretty much like :focus with red ( like notice-error )*/
+                .form-table input.sanitization-error, .form-table select.sanitization-error {
+                	border-color: #d63638;
+                	box-shadow: 0 0 0 1px #d63638;
+					outline: 2px solid transparent;
+                }
 			</style>
 			<?php
 		}
