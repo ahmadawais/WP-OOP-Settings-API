@@ -127,6 +127,7 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 					if (!defined($option_name) && array_key_exists('default', $field)) {
 						define($option_name, $field['default']);
 					}
+				}
 			}
 		}
 
@@ -421,7 +422,10 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 		/**
 		 * Sanitize callback for Settings API fields.
 		 *
-		 * @since 1.0.0
+		 * @param      array  $fields      The fields
+		 * @param      string  $section_id  The section identifier
+		 *
+		 * @return     array  The sanitized fields
 		 */
 		public function sanitize_fields($fields, $section_id)
 		{
@@ -461,7 +465,10 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 		/**
 		 * General Sanitize callback for a field, uses the field config to get the type of field
 		 *
-		 * @since 1.0.0
+		 * @param      string $field_value   The field value
+		 * @param      array  $field_config  The field configuration
+		 *
+		 * @return     mixed   The sanitized field
 		 */
 		public function sanitize_field($field_value, $field_config)
 		{
