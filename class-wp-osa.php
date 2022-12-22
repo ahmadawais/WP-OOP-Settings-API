@@ -64,6 +64,9 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 			do_action('settings_ready');
 		}
 
+		/**
+		 * Initializes the sections and fields.
+		 */
 		public function init_options(){
 			foreach($this->options as $section ){
 				$name = $title = $fields = null;
@@ -104,6 +107,9 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 			}
 		}
 		
+		/**
+		 * Defines the constants from the saved options or from the fields default values if options are not saved.
+		 */
 		public function init_consts() {
 			foreach($this->options as $section ){
 				$options = get_option( $section['name'] );
@@ -115,6 +121,12 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 						}
 					}
 				}
+				// init from default if constant is not defined
+				foreach($section['fields'] as $field) {
+					$option_name = $section['name']  . '_' . $field['id'];
+					if (!defined($option_name) && array_key_exists('default', $field)) {
+						define($option_name, $field['default']);
+					}
 			}
 		}
 
@@ -998,18 +1010,18 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 					.change();
 					
 				// Sanitization errors
-                $('div.settings-error').each(function(){
-                	// Get the field mame and make sure to escape brackets
-                	var field_id = $(this).attr('id')
-                		.replace('setting-error-', '')
-                		.replace('[', "\\[") 
-                		.replace(']', "\\]")
-                	var $field = $("[name="+field_id+"]");
-                	$field.addClass('sanitization-error');
-                	$field.one('change',function(){
-                		$field.removeClass('sanitization-error');
-                	});
-                });
+				$('div.settings-error').each(function(){
+					// Get the field mame and make sure to escape brackets
+					var field_id = $(this).attr('id')
+						.replace('setting-error-', '')
+						.replace('[', "\\[") 
+						.replace(']', "\\]")
+					var $field = $("[name="+field_id+"]");
+					$field.addClass('sanitization-error');
+					$field.one('change',function(){
+						$field.removeClass('sanitization-error');
+					});
+				});
 			});
 
 			</script>
@@ -1043,11 +1055,11 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 				}
 
 				/* Pretty much like :focus with red ( like notice-error )*/
-                .form-table input.sanitization-error, .form-table select.sanitization-error {
-                	border-color: #d63638;
-                	box-shadow: 0 0 0 1px #d63638;
+				.form-table input.sanitization-error, .form-table select.sanitization-error {
+					border-color: #d63638;
+					box-shadow: 0 0 0 1px #d63638;
 					outline: 2px solid transparent;
-                }
+				}
 			</style>
 			<?php
 		}
