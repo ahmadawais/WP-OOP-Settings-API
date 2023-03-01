@@ -91,6 +91,8 @@ $setting = new WP_OSA($options);
 - [x] Create Field: `password`
 - [x] Create Field: `color`
 - [x] Create Field: `email`
+- [x] Create Field: `date`
+- [x] Create Field (generated content with callback): `content`
 - [ ] Tutorials
 - [ ] Blog post
 - [ ] Documentation
@@ -108,7 +110,7 @@ Release under GNU GPL v2.0
 ## Credits
 
 @AhmadAwais, @deviorobert, @MaedahBatool
-AND @WordPress, @tareq1988, @royboy789, @twigpress.
+AND @WordPress, @tareq1988, @royboy789, @twigpress, @rahal.
 
 
 ---

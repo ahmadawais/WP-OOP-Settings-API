@@ -97,6 +97,7 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 								'default' => isset($field['default']) ? $field['default'] : null,
 								'size' => isset($field['size']) ? $field['size'] : null,
 								'options' => isset($field['options']) ? $field['options'] : null,
+								'query' => isset($field['query']) ? $field['query'] : null,
 								'placeholder' => isset($field['placeholder']) ? $field['placeholder'] : null,
 								'sanitize_callback' => isset($field['sanitize_callback']) ? $field['sanitize_callback'] : null,
 								'sanitization_error_message' => isset($field['sanitization_error_message']) ? $field['sanitization_error_message'] : null,
@@ -570,6 +571,16 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 		}
 
 		/**
+	     * Displays a date field for a settings field
+	     *
+	     * @param array $args settings field args
+	     */
+	    public function callback_date($args)
+	    {
+	        $this->callback_text($args);
+	    }
+
+		/**
 		 * Displays an email field for a settings field
 		 *
 		 * @param array $args settings field args
@@ -660,9 +671,16 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 			$size  = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
 
 			$html = sprintf( '<select class="%1$s" name="%2$s[%3$s]" id="%2$s[%3$s]">', $size, $args['section'], $args['id'] );
-			foreach ( $args['options'] as $key => $label ) {
-				$html .= sprintf( '<option value="%s"%s>%s</option>', $key, selected( $value, $key, false ), $label );
-			}
+			$options = isset($args['options']) ? $args['options'] : [];
+            if (isset($args['query']) && $args['query']['type']=='callback') {
+                if (is_callable($args['query']['function'])) {
+                    $query_args = isset($args['query']['args']) ? $args['query']['args'] : [];
+                    $options = call_user_func($args['query']['function'], $query_args);
+                }
+            }
+			foreach ($options as $key => $label) {
+                $html .= sprintf('<option value="%s"%s>%s</option>', $key, selected($value, $key, false), $label);
+            }
 			$html .= sprintf( '</select>' );
 			$html .= $this->get_field_description( $args );
 
@@ -694,6 +712,24 @@ if ( ! class_exists( 'WP_OSA' ) ) :
 		function callback_html( $args ) {
 			echo $this->get_field_description( $args );
 		}
+		
+
+		/**
+	     * Displays a content ( generate via callback )
+	     *
+	     * @param array $args settings field args.
+	     * @return string
+	     */
+	    public function callback_content($args)
+	    {
+	        echo $this->get_field_description($args);
+	        if (isset($args['callback'])) {
+	            $callback = $args['callback'];
+	            $args = (isset($callback['args'])) ? $callback['args'] : '';
+	            echo  call_user_func($callback['function'], $args);
+	        }
+	    }
+
 
 		/**
 		 * Displays a rich text textarea for a settings field
