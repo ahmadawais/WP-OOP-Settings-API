@@ -1,14 +1,14 @@
 <h1 align="center">
   <img src="https://i.imgur.com/gVEqftv.jpg" />
 
-  WordPress OOP Settings API
+  WordPress OOP Settings And Metabox API
 
 </h1>
 
 
 [![Tweet for help](https://img.shields.io/twitter/follow/mrahmadawais.svg?style=social&label=Tweet%20@MrAhmadAwais)](https://twitter.com/mrahmadawais/) [![GitHub stars](https://img.shields.io/github/stars/ahmadawais/WP-OOP-Settings-API.svg?style=social&label=Stars)](https://github.com/ahmadawais/WP-OOP-Settings-API/stargazers) [![GitHub followers](https://img.shields.io/github/followers/ahmadawais.svg?style=social&label=Follow)](https://github.com/ahmadawais?tab=followers) — :point_up: Make sure you :star: and :eyes: this repository!
 
-> Ever wanted to build custom settings inside your WordPress plugin or theme and didn't like the non-DRY approach for creating custom settings via WordPress API? Well, that's why and when I wrote this OOP Wrapper for WordPress Settings API. 🎊
+> Ever wanted to build custom settings (or metaboxes) inside your WordPress plugin or theme and didn't like the non-DRY approach for creating custom settings and metaboxes via WordPress API? Well, that's why and when I wrote this OOP Wrapper for WordPress Settings API. 🎊
 
 ![Screenshots](https://on.ahmda.ws/qPBC/c)
 
@@ -43,7 +43,8 @@
 
 ## USAGE
 
-* Prepare un array of options then instanciate WP_OSA
+## USAGE For Setting Page
+* Prepare an array of options then instanciate WP_OSA
 ```php
 $options = 
 [
@@ -70,6 +71,43 @@ $setting = new WP_OSA($options);
 * Once the options are saved, constants MY\_\AWESOME\_FEATURE\_ACTIVE will be available and will be able to set the first setting MY\_AWESOME\_FEATURE\_FIRST\_SETTING 
 
 
+## USAGE For Post Metabox
+* Prepare an array of options as well as the metabox definition then instanciate WP_OSA
+
+```php
+$options = 
+[
+    'name' => 'MY_AWESOME_FEATURE',
+    'title' => 'My Awesome Feature',
+    'fields' => [
+        [
+            'id' => 'ACTIVE',
+            'type' => 'checkbox',
+            'title' => 'The feature is active' ,
+        ],
+        [
+            'id' => 'FIRST_SETTING',
+            'type' => 'number',
+            'title' => 'First setting' ,
+            'default' => 0 ,
+            // This setting will be included only if the first checkbox is checked
+            'show_if' => function(){ return defined('MY_AWESOME_FEATURE_ACTIVE') && MY_AWESOME_FEATURE_ACTIVE == 'on'; }
+        ]
+    ]
+];
+$metabox = [
+    'id' => 'my_metabox',
+    'title' => 'My Awesome Metabox',
+    'post_types' => ['post'], // Post types to display meta box
+    'context' => 'advanced',
+    'priority' => 'default',
+];
+$metabox = new WP_OSA($options , $metabox);
+```
+
+* Once the metabox is saved, fields will be saved as post metas : MY\_AWESOME\_FEATURE\_FIRST\_ACTIVE  and   MY\_AWESOME\_FEATURE\_FIRST\_SETTING 
+
+
 
 ## TODO:
 - [x] Basic Settings Page
@@ -93,6 +131,7 @@ $setting = new WP_OSA($options);
 - [x] Create Field: `email`
 - [x] Create Field: `date`
 - [x] Create Field (generated content with callback): `content`
+- [x] Support for post metabox
 - [ ] Tutorials
 - [ ] Blog post
 - [ ] Documentation
