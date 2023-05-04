@@ -43,7 +43,7 @@
 
 ## USAGE
 
-## USAGE For Setting Page
+### USAGE For Setting Page
 * Prepare an array of options then instanciate WP_OSA
 ```php
 $options = 
@@ -71,7 +71,7 @@ $setting = new WP_OSA($options);
 * Once the options are saved, constants MY\_\AWESOME\_FEATURE\_ACTIVE will be available and will be able to set the first setting MY\_AWESOME\_FEATURE\_FIRST\_SETTING 
 
 
-## USAGE For Post Metabox
+### USAGE For Post Metabox
 * Prepare an array of options as well as the metabox definition then instanciate WP_OSA
 
 ```php
@@ -131,6 +131,7 @@ $metabox = new WP_OSA($options , $metabox);
 - [x] Create Field: `email`
 - [x] Create Field: `date`
 - [x] Create Field (generated content with callback): `content`
+- [x] Create Field: `range`
 - [x] Support for post metabox
 - [ ] Tutorials
 - [ ] Blog post

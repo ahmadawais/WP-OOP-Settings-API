@@ -44,6 +44,7 @@ if (! class_exists('WP_OSA')) :
 
         private $metabox = null;
         private $options = null;
+        protected $settings_name = null;
 
 
         /**
@@ -72,7 +73,13 @@ if (! class_exists('WP_OSA')) :
                     add_action('admin_menu', array( $this, 'admin_menu' ));
                     $this->init_options();
                 }
-                do_action('settings_ready');
+
+                // To allow multiple instanciations off this class
+                if ($this->settings_name) {
+                    do_action('settings_ready_'. $this->settings_name);
+                } else {
+                    do_action('settings_ready');
+                }
             }
         }
 
@@ -462,6 +469,7 @@ if (! class_exists('WP_OSA')) :
             switch ($type) {
                 case 'checkbox':
                     return $field_value == 'on' ? 'on' : 'off' ;
+                case 'range':
                 case 'number':
                     return (is_numeric($field_value)) ? $field_value : 0;
                 case 'textarea':
@@ -540,8 +548,10 @@ if (! class_exists('WP_OSA')) :
             $value = esc_attr($this->get_option($args['id'], $args['section'], $args['std'], $args['placeholder']));
             $size  = isset($args['size']) && ! is_null($args['size']) ? $args['size'] : 'regular';
             $type  = isset($args['type']) ? $args['type'] : 'text';
+            $attributes  = isset($args['attributes']) && is_array($args['attributes']) ? wp_sanitize_script_attributes($args['attributes']) : '';
+            $after  = isset($args['after']) ? $args['after'] : '';
 
-            $html  = sprintf('<input type="%1$s" class="%2$s-text" id="%3$s[%4$s]" name="%3$s[%4$s]" value="%5$s"placeholder="%6$s"/>', $type, $size, $args['section'], $args['id'], $value, $args['placeholder']);
+            $html  = sprintf('<input type="%1$s" class="%2$s-text" id="%3$s[%4$s]" name="%3$s[%4$s]" value="%5$s" placeholder="%6$s" %7$s /> %8$s', $type, $size, $args['section'], $args['id'], $value, $args['placeholder'], $attributes, $after);
             $html .= $this->get_field_description($args);
 
             echo $html;
@@ -585,6 +595,22 @@ if (! class_exists('WP_OSA')) :
          */
         public function callback_number($args)
         {
+            $this->callback_text($args);
+        }
+
+        /**
+         * Displays a range field for a settings field
+         *
+         * @param array $args settings field args
+         */
+        public function callback_range($args)
+        {
+            $value = esc_html($this->get_option($args['id'], $args['section'], $args['std']));
+            $args['after'] = "<output>$value</output>";
+            if (!isset($args['attributes']) ||  !is_array($args['attributes'])) {
+                $args['attributes'] = [];
+            }
+            $args['attributes']['oninput']="this.nextElementSibling.value = this.value";
             $this->callback_text($args);
         }
 
@@ -1205,6 +1231,12 @@ if (! class_exists('WP_OSA')) :
 					box-shadow: 0 0 0 1px #d63638;
 					outline: 2px solid transparent;
 				}
+
+                tr output{ 
+                   font-weight: bold;
+                   vertical-align: top;
+                   margin-left: 1em; 
+                }
 			</style>
 			<?php
         }
